@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@*@section style{
+    <style>
+        h1{
+            background-color:aqua;
+        }
+    </style>
+     }*@
+<div class="text-center">
+    <h1 class="display-4">Welcome Ajax</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<div>
+    <button class="btn btn-outline-success mb-3" id="btn">Show Employees</button>
+    <table id="tb"class="table table-success table-striped" style="text-align:center"></table>
+</div>
+@*@section Scripts{
+    <script>
+        console.log("Hello")
+        $( ".display-4").text("Welcome MVC ^U^")
+    </script>
+     }*@
+@section scripts{
+    <script>
+        document.querySelector("#btn").addEventListener("click", () => {
+            var emp = {
+                "employees": [
+                    { "name": "Tom", "workYears": 3, "salary": 35000 },
+                    { "name": "Jack", "workYears": 5, "salary": 40000 },
+                    { "name": "Mary", "workYears": 7, "salary": 45000 }
+                ]
+            };
+            let trcls = ["table-warning", "table-info", "table-danger"]
+            let tb = document.getElementById("tb")
+         tb.innerHTML=""
+            for ( i in emp) {
+                let cap = document.createElement("caption")
+                cap.textContent=i.toUpperCase()
+                tb.appendChild(cap)
+                let trhead = document.createElement("tr");
+                let index = document.createElement("th")
+                trhead.className =  "table-secondary"
+                index.textContent = "序號"
+                trhead.appendChild(index)
+                for ( props in emp.employees[0]) {
+                    let th = document.createElement("th")
+                    th.textContent = props.toUpperCase()
+                    trhead.appendChild(th)
+                }
+                tb.appendChild(trhead)
+                let count=0
+                for (theemp of emp.employees) {
+                    let tr = document.createElement("tr")
+                    let num = document.createElement("td")
+                    
+                    num.textContent = ++count
+                    tr.className = trcls[count%3]
+                    tr.appendChild(num)
+                    for (props in emp.employees[0]) {
+                        let td = document.createElement("td")
+                        td.textContent = theemp[props]
+                        tr.appendChild(td)
+                    }
+ 
+                tb.appendChild(tr)
+                    
+                }
+            }
+            
+        })
+        //function change() {
+        //    $("h1").css("background-color", "yellow")
+        //    console.log("Hello")
+        //    $(".display-4").text("Welcome MVC ^U^")
+        //}
+        //$(".but").click(change)
+        
+        
+    </script> 
+}
