@@ -1,20 +1,26 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@*@section style{
+@section style{
     <style>
         h1{
             background-color:aqua;
         }
+       #tb{
+            caption-side:top;
+        }
+        caption{
+
+        }
     </style>
-     }*@
+     }
 <div class="text-center">
     <h1 class="display-4">Welcome Ajax</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 <div>
     <button class="btn btn-outline-success mb-3" id="btn">Show Employees</button>
-    <table id="tb"class="table table-success table-striped" style="text-align:center"></table>
+    <table id="tb"class="table caption-top" style="text-align:center"></table>
 </div>
 @*@section Scripts{
     <script>
