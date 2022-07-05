@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewData["Title"] = "Address";
+}
+
+<h1>Address</h1>
+<select id="select1">
+
+</select>
+
+@section scripts{ 
+<script>
+    
+    const select = document.querySelector("#select1")
+    const xhr = new XMLHttpRequest();
+    xhr.addEventListener("load", () => {
+        const datas = JSON.parse(xhr.responseText)
+      
+        datas.forEach((city) => {
+            let option = document.createElement("option")
+            option.text = city;
+            option.value = city;
+            select.appendChild(option);
+        })
+    })
+        xhr.open("get","@Url.Content("~/api/city")");
+        xhr.send();
+
+</script>
+}

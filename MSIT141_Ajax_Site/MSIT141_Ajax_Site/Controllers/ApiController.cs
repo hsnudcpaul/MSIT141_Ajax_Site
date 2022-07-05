@@ -69,23 +69,12 @@ namespace MSIT141_Ajax_Site.Controllers
             var exists = _context.Members.Any(m => m.Name == name);
             return Content(exists.ToString(), "text/plain");
         }
-        public IActionResult CheckName(User user)
+        public IActionResult CheckName(string name)
         {
-            //System.Threading.Thread.Sleep(5000);
-            if (user.name == null)
-            {
-                return Content($"請輸入名字", "text/plain", System.Text.Encoding.UTF8);
-            }
-            else
-            {
-                Member mem = _context.Members.FirstOrDefault(p => p.Name == user.name);
-                if (mem == null)
-                    return Content($"您的名字尚未註冊，可以使用", "text/plain", System.Text.Encoding.UTF8);
-                else
-                    return Content($"您的名字已註冊過，請使用其他名字", "text/plain", System.Text.Encoding.UTF8);
-
-            }
-        }
+                var exists= _context.Members.Any(p=>p.Name==name);
+            return Content(exists.ToString(), "text/plain");
+           }
+        
         public IActionResult City()
         {
             var cities = _context.Addresses.Select(c => c.City).Distinct();
@@ -100,6 +89,11 @@ namespace MSIT141_Ajax_Site.Controllers
         {
             var roads = _context.Addresses.Where(d => d.SiteId ==district ).Select(c => c.Road).Distinct();
             return Json(roads);
+        }
+        public IActionResult GetImageBytes(int id=1)
+        {
+            byte[] imdByte = _context.Members.FirstOrDefault(p => p.MemberId == id).FileData;
+            return File(imdByte,"image/jpg");
         }
     }
 }
