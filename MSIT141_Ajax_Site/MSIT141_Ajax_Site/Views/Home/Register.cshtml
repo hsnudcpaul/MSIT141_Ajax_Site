@@ -39,17 +39,17 @@
         txtName.addEventListener("blur",()=> {
            
             if (txtName.value.trim() === "")
-                NameCheck.innerHTML = `<h4 class="col-9"><img src="/uploads/Error.png" width="30" height="30" class="col-1"/>請輸入姓名</h4>`
+                NameCheck.innerHTML = `<h4 ><img src="/uploads/Error.png" width="30" height="30" />請輸入姓名</h4>`
             else {
    const xhr = new XMLHttpRequest();
             xhr.addEventListener("load", () => {
            
                 const data = xhr.responseText
                 if (data == "True") {
-                    NameCheck.innerHTML = `<h4 class="col-9"><img src="/uploads/Error.png" width="30" height="30" class="col-1"/>您輸入的帳號已註冊使用，請輸入其他帳號</h4>`
+                    NameCheck.innerHTML = `<h4 ><img src="/uploads/Error.png" width="30" height="30" />您輸入的帳號已註冊使用，請輸入其他帳號</h4>`
                 }
                 else {
-                    NameCheck.innerHTML = `<h4 class="col-9"><img src="/uploads/ok.jpg" width=30 height=30 class="col-1"/>您輸入的帳號驗證成功</h4>`
+                    NameCheck.innerHTML = `<h4 ><img src="/uploads/ok.jpg" width=30 height=30 />您輸入的帳號驗證成功</h4>`
                 }
 
             })
