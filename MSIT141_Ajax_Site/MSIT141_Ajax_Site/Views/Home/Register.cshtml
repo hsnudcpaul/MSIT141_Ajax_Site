@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>Register</h1>
+
+<form method="post" enctype="application/x-www-form-urlencoded" name="userInfo">
+    <div class="form-group">
+        <label for="exampleInputPassword1">Name</label>
+        <input type="text" class="form-control" id="txtName" name="name">
+        <small id="NameCheck" class="form-text text-muted"></small>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="form-control" id="txtEmail" aria-describedby="emailHelp" name="email">
+
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Age</label>
+        <input type="number" class="form-control" id="txtAge" name="age">
+    </div>
+    <div class="custom-file  mt-3">
+        <input type="file" class="custom-file-input" id="customFile" name="file">
+        <label class="custom-file-label" for="customFile">選擇檔案</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<div id="div1" class="alert alert-info"></div>
+
+
+@section scripts{
+    <script>
+        const NameCheck = document.querySelector("#NameCheck")
+      const txtName=document.querySelector("#txtName")
+    const btnSubmit = document.querySelector(".btn")
+    const divInfo = document.querySelector("#div1")
+        txtName.addEventListener("blur",()=> {
+            console.log("blur");
+            const formData = new FormData(document.userInfo)
+            const xhr = new XMLHttpRequest();
+            xhr.addEventListener("load", () => {
+            console.log("load")
+            const data = xhr.responseText
+                NameCheck.innerHTML=`<h4>${data}</h4>`
+        })
+        xhr.open("Post","@Url.Content("~/api/CheckName")")
+        xhr.send(formData)
+        })
+
+    btnSubmit.addEventListener("click", (evt) => {
+        evt.preventDefault();
+        const formData=new FormData(document.userInfo)
+        const xhr = new XMLHttpRequest();
+
+        xhr.addEventListener("load", () => {
+            console.log("load")
+            const data = xhr.responseText
+            divInfo.innerHTML=`<h3>${data}</h3>`
+        })
+
+
+      xhr.open('POST', '@Url.Content("~/api/Register")');
+
+        xhr.send(formData)
+    })
+
+    </script>
+
+}

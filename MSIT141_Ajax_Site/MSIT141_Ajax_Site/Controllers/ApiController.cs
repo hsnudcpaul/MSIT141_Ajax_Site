@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using MSIT141_Ajax_Site.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,8 +13,9 @@ namespace MSIT141_Ajax_Site.Controllers
     public class ApiController : Controller
     {
         private readonly DemoContext _context;
-        public  ApiController(DemoContext context) {
-
+        private readonly IWebHostEnvironment _host;
+        public  ApiController(DemoContext context,IWebHostEnvironment hostEnvironment) {
+            _host = hostEnvironment;
             _context = context;
         }
         public IActionResult Index(User user)
@@ -23,16 +27,47 @@ namespace MSIT141_Ajax_Site.Controllers
             }
             return Content($"{user.name} 你好啊~~^^  你的年齡為{user.age}","text/plain",System.Text.Encoding.UTF8);
         }
-        public IActionResult FirstAjax() 
+      
+        //public IActionResult Register()
+        //{
+        //    return View();
+        //}
+        public IActionResult Register(Member member, IFormFile file)
         {
-            return View();
+
+            string uploadsFolder = Path.Combine(_host.WebRootPath, "uploads");
+            //檔案上傳要有實際路徑
+            //C:\Users\Student\Documents\Ajax\MSIT141Site\wwwroot\uploads
+            //string path = _host.ContentRootPath; //會取得專案資料夾的實際路徑
+            //string path = Path.Combine(_host.WebRootPath, "uploads");
+            //string filePath = Path.Combine(uploadsFolder, file.FileName);
+            //using (var fileStream=new FileStream(filePath, FileMode.Create))
+            //{
+            //    file.CopyTo(fileStream);
+            //}
+            string path = Path.Combine(_host.WebRootPath, "uploads", file.FileName); //會取得專案資料夾下wwwroot的實際路徑
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                file.CopyTo(fileStream); //儲存檔案到uploads資料夾中
+            }
+            byte[] imgByte = null;
+            using (var memoryStream=new MemoryStream()) {
+                file.CopyTo(memoryStream);
+                imgByte = memoryStream.ToArray();
+            }
+            member.FileData = imgByte;
+            member.FileName = file.FileName;
+            _context.Members.Add(member);
+            _context.SaveChanges();
+
+                string info = $"{file.FileName} - {file.ContentType} - {file.Length}";
+            return Content(info, "text/plain", System.Text.Encoding.UTF8);
         }
-        public IActionResult AjaxPost() {
-            return View();
-        }
-        public IActionResult Register()
+
+        public IActionResult CheckAccount(string name)
         {
-            return View();
+            var exists = _context.Members.Any(m => m.Name == name);
+            return Content(exists.ToString(), "text/plain");
         }
         public IActionResult CheckName(User user)
         {
@@ -41,14 +76,30 @@ namespace MSIT141_Ajax_Site.Controllers
             {
                 return Content($"請輸入名字", "text/plain", System.Text.Encoding.UTF8);
             }
-            else {
-                Member mem= _context.Members.FirstOrDefault(p => p.Name == user.name);
+            else
+            {
+                Member mem = _context.Members.FirstOrDefault(p => p.Name == user.name);
                 if (mem == null)
                     return Content($"您的名字尚未註冊，可以使用", "text/plain", System.Text.Encoding.UTF8);
                 else
                     return Content($"您的名字已註冊過，請使用其他名字", "text/plain", System.Text.Encoding.UTF8);
 
             }
+        }
+        public IActionResult City()
+        {
+            var cities = _context.Addresses.Select(c => c.City).Distinct();
+            return Json(cities);
+        }
+        public IActionResult Districts(string city)
+        {
+            var Districts = _context.Addresses.Where(d=>d.City==city).Select(c=>c.SiteId). Distinct();
+            return Json(Districts);
+        }
+        public IActionResult Road(string district)
+        {
+            var roads = _context.Addresses.Where(d => d.SiteId ==district ).Select(c => c.Road).Distinct();
+            return Json(roads);
         }
     }
 }
