@@ -4,18 +4,21 @@
 }
 
 <h1>Address</h1>
-<select id="select1">
+<select id="select1"></select>
+<select id="select2"></select>
+<select id="select3"></select>
+@section scripts{
+    <script>
 
-</select>
-
-@section scripts{ 
-<script>
-    
-    @*const select = document.querySelector("#select1")
-    const xhr = new XMLHttpRequest();
+        const select1 = document.querySelector("#select1")
+        const select2 = document.querySelector("#select2")
+        const select3 = document.querySelector("#select3")
+        let city = ""
+        let dsitricts = "宜蘭縣宜蘭市"
+    @*const xhr = new XMLHttpRequest();
     xhr.addEventListener("load", () => {
         const datas = JSON.parse(xhr.responseText)
-      
+
         datas.forEach((city) => {
             let option = document.createElement("option")
             option.text = city;
@@ -25,9 +28,55 @@
     })
         xhr.open("get","@Url.Content("~/api/city")");
         xhr.send();*@
+
     async function loadAddress() {
+            const response = await fetch('@Url.Content("~/api/city")');
+            const datas = await response.json();
+            datas.forEach(city => {
+                let option = document.createElement("option")
+                option.text = city;
+                option.value = city;
+                select1.appendChild(option)
+                loadDistricts()
+                loadRoads()
+            })
+      }
 
-    }
+        select1.addEventListener("change", async function () {
+          city = this.value
+             loadDistricts()
+        })
+        select2.addEventListener("change", async function () {
+           dsitricts = this.value
+            loadRoads()
+        })
+        async function loadDistricts() {
+            city = select1.value
+            select2.innerHTML = "";
+                  const response = await fetch('@Url.Content("~/api/districts")'+"?city="+city);
+            const datas = await response.json();
+            datas.forEach(districts => {
+                let option = document.createElement("option")
+                option.text = districts;
+                option.value = districts;
+                select2.appendChild(option)
+            })
+            loadRoads()
+        }
 
-</script>
+        async function loadRoads() {
+            dsitricts = select2.value
+            select3.innerHTML = "";
+            const response = await fetch('@Url.Content("~/api/roads")' +"?district="+dsitricts);
+            const datas = await response.json();
+            datas.forEach(road => {
+                let option = document.createElement("option")
+                option.text = road;
+                option.value = road;
+                select3.appendChild(option)
+            })
+        }
+
+        loadAddress()
+    </script>
 }

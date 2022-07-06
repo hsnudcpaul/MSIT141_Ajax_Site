@@ -85,7 +85,7 @@ namespace MSIT141_Ajax_Site.Controllers
             var Districts = _context.Addresses.Where(d=>d.City==city).Select(c=>c.SiteId). Distinct();
             return Json(Districts);
         }
-        public IActionResult Road(string district)
+        public IActionResult Roads(string district)
         {
             var roads = _context.Addresses.Where(d => d.SiteId ==district ).Select(c => c.Road).Distinct();
             return Json(roads);

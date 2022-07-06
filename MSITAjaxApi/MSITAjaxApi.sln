@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSITAjaxApi", "MSITAjaxApi\MSITAjaxApi.csproj", "{6759333A-6612-44E4-B8B8-98B3C600867B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6759333A-6612-44E4-B8B8-98B3C600867B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6759333A-6612-44E4-B8B8-98B3C600867B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6759333A-6612-44E4-B8B8-98B3C600867B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6759333A-6612-44E4-B8B8-98B3C600867B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6745735B-B0AD-4069-947C-0FF6B47DB031}
+	EndGlobalSection
+EndGlobal

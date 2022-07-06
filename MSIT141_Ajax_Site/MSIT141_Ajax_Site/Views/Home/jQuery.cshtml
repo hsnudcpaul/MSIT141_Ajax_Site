@@ -60,6 +60,10 @@
             $('#divAlert').text("AJAX")
         })
         $('#buttonCors').click(function () {
+            const api = "https://localhost:44303/api/Shippers";
+            $.getJSON(api, function (datas) {
+                console.log(datas);
+            })
             $('#divAlert').text("CORs")
         })
     </script>
