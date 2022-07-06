@@ -1,3 +1,3 @@
 # MSIT141_Ajax_Site
-7/4姓名驗證作業在ApiController及Api的Register View 
+7/5 Address作業在ApiController及Api的Address View 
 感謝老師~辛苦了
