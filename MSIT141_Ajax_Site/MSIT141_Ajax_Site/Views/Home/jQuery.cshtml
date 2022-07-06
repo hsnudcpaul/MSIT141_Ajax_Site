@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewData["Title"] = "jQuery";
+}
+
+<h1>jQuery</h1>
+
+<div class="row">
+    <div class="alert alert-dark mt-3 w-50 col-4" role="alert" id="divAlert">
+        <ul id="ul1"></ul>
+    </div>
+    <div class="col-8">
+        <button id="buttonGet" class="btn btn-primary">get</button>
+        <button id="buttonPost" class="btn btn-secondary">post</button>
+        <button id="buttonJson" class="btn btn-success">getJson</button>
+        <button id="buttonLoad" class="btn btn-info">load</button>
+        <button id="buttonAjax" class="btn btn-warning">ajax</button>
+        <button id="buttonCors" class="btn btn-danger">cors</button>
+   
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $('#buttonGet').click(function () {
+            $.get("@Url.Content("~/api/index")", { "name": "Paul", "age": 32 }, function (data) {
+                $('#divAlert').text(data)
+            })
+        })
+        $('#buttonPost').click(function () {
+            $.post("@Url.Content("~/api/index")", { "name": "Show", "age": 25 }, function (data) {
+                $('#divAlert').text(data)
+            })
+        })
+        $('#buttonJson').click(function () {
+            $.getJSON('@Url.Content("~/api/Districts")', { "city": "新北市" }, function (data) {
+                $.each(data, function (index,item) {
+                    console.log(item)
+                })
+            })
+        })
+        $('#buttonLoad').click(function () {
+
+            $('#divAlert').load("@Url.Content("~/home/partial") ")
+        })
+        $('#buttonAjax').click(function () {
+            $.ajax({
+                url: '@Url.Content("~/api/districts")',
+                type:" get",
+                data: { "city": "新北市" },
+                dataType: "json",
+                success: function (datas) {
+                    $.each(datas, function (index, item) {
+                        let li = $("<li></li>")
+                        li.text(item)
+                        $("#ul1").append(li)
+                    })
+                    $('#divAlert').html("AJAX")
+                }
+            })
+            $('#divAlert').text("AJAX")
+        })
+        $('#buttonCors').click(function () {
+            $('#divAlert').text("CORs")
+        })
+    </script>
+}

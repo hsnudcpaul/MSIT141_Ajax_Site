@@ -57,5 +57,19 @@ namespace MSIT141_Ajax_Site.Controllers
         {
             return View();
         }
+        public IActionResult History()
+        {
+            return View();
+        }
+
+        public IActionResult jQuery()
+        {
+            return View();
+        }
+        public IActionResult Partial()
+        {
+            ViewBag.data = "^U^";
+            return PartialView();
+        }
     }
 }

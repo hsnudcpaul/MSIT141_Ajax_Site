@@ -11,7 +11,7 @@
 @section scripts{ 
 <script>
     
-    const select = document.querySelector("#select1")
+    @*const select = document.querySelector("#select1")
     const xhr = new XMLHttpRequest();
     xhr.addEventListener("load", () => {
         const datas = JSON.parse(xhr.responseText)
@@ -24,7 +24,10 @@
         })
     })
         xhr.open("get","@Url.Content("~/api/city")");
-        xhr.send();
+        xhr.send();*@
+    async function loadAddress() {
+
+    }
 
 </script>
 }
